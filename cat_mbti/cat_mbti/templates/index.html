@@ -116,6 +116,9 @@
                         }
 
                         let temp_html = `<li>
+                                            <figrue class="image is-32x32">
+                                                <img src="static/cat_images/${match[i]}.webp" alt="${match[i]}">
+                                            </figrue>
                                             ${users[i]["username"]} 님의 고양이는 ${match[i]}번째 고양이 ${tiem_before} 좋아하는 색은 ${users[i]["color"]}
                                         </li>`
                         $("#test-results").append(temp_html)
