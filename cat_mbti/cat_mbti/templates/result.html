@@ -78,13 +78,16 @@
     나의 MBTI 는 {{ user_info.mbti }}
 </div>
 <div>
-    <img class="is-rounded" src="static/cat_images/{{ cat_name }}.webp" alt={{ cat_name }}>
+    <div style="width: 100px; height: 100px; background-color: {{ user_info.color }}">
+            <img class="is-rounded" src="static/cat_images/{{ cat_name }}.png" alt={{ cat_name }}>
+
+    </div>
 </div>
 <div>
     나의 고양이는 {{ cat_name }}
 </div>
 <div>
-    이제 여기에 고양이 설명이 곁들여진
+    {{ cat.cat_description }}
 </div>
 
 <a href="/">확인</a>

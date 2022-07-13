@@ -116,9 +116,12 @@
                         }
 
                         let temp_html = `<li>
-                                            <figrue class="image is-32x32">
-                                                <img src="static/cat_images/${match[i]}.webp" alt="${match[i]}">
-                                            </figrue>
+                                            <div style="width: 100px; height: 100px; background-color: ${users[i].color}">
+                                                <figrue class="image is-32x32">
+                                                    <img src="static/cat_images/${match[i]}.png" alt="${match[i]}">
+                                                </figrue>
+                                            </div>
+
                                             ${users[i]["username"]} 님의 고양이는 ${match[i]}번째 고양이 ${tiem_before} 좋아하는 색은 ${users[i]["color"]}
                                         </li>`
                         $("#test-results").append(temp_html)
@@ -137,7 +140,7 @@
         {{ user_info.username }} 님은 시험 결과가 없습니다.
     </div>
 {% else %}
-    <a href="/test">시험 다사보기</a>
+    <a href="/test">시험 다시보기</a>
     <a onclick="sign_out()">로그아웃</a>
     <div>
 

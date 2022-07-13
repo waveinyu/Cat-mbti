@@ -27,6 +27,8 @@ def home():
         if user_mbti:
             # 고양이 찾기, 시험 응시 유저 카운트
             cat = db.cats.find_one({'cat_mbti': user_mbti})
+        else:
+            cat = ""
         return render_template('index.html', user_info=user_info, cat=cat)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -133,7 +135,7 @@ def result():
             user_count = db.users.count_documents({"status": "1"})
             print(user_count)
             print(cat_name)
-            return render_template('result.html', cat_name=cat_name, waiting_users=waiting_users, user_count=user_count,
+            return render_template('result.html', cat=cat, cat_name=cat_name, waiting_users=waiting_users, user_count=user_count,
                                    user_info=user_info)
         else:
             return redirect(url_for("test", msg="시험 결과가 없습니다. 시험을 봐주세요."))
