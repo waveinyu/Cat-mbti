@@ -73,46 +73,6 @@
         return regex.test(asValue)
       }
 
-      function overlap_id() {
-        let userid = $("#userid").val()
-        $.ajax({
-          type: "POST",
-          url: "/register/check",
-          data: {id_give: userid},
-          success: function (response) { // 비밀번호 일치, 불일치 표현
-            if (response['sign'] === "0") {
-              if (is_id(userid) == false) {
-                alert("아이디의 형식을 확인해주세요 : 영문자 또는 숫자 5~8자")
-              } else{
-                alert(response['msg'])
-              }   
-              signal = userid;
-              //console.log(signal)
-            } else { 
-              alert(response['msg'])
-            } // 에러)아이디 입력하지 않았을 때 중복확인 버튼 입력 시 넘어가는 것
-          }
-        })
-      }
-
-      function overlap_nick() {
-        let usernick = $("#usernick").val()
-        $.ajax({
-          type: "POST",
-          url: "/register/check_nick",
-          data: {nick_give: usernick},
-          success: function (response) {
-            console.log(response['state']) 
-            if (response['state'] === "success") {
-              alert(response['msg'])
-              statement = usernick;
-            } else {
-              alert(response['msg'])
-            }
-          }
-        })
-      }
-
       function check_dup() {
         let username = $("#input-username").val()
         console.log(username)
