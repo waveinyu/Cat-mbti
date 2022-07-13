@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>RESULT | MBTI</title>
+
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            font-family: 'Jua', sans-serif;
+        }
+
+        body {
+            background-color: goldenrod;
+        }
+
+        .wrap{
+            width: 100%;
+            height: 100%;
+            margin: 10px;
+            padding: 100px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .count{
+            margin: 10px;
+            box-shadow: 0px 0px 3px 0px black;
+        }
+
+        .users{
+            margin: 10px;
+            box-shadow: 0px 0px 3px 0px black;
+        }
+
+        .info_mbti{
+            margin: 10px;
+            box-shadow: 0px 0px 3px 0px black;
+        }
+
+        .info_img{
+            margin: 10px;
+            box-shadow: 0px 0px 3px 0px black;
+        }
+
+        .info_catname{
+            margin: 10px;
+            box-shadow: 0px 0px 3px 0px black;
+        }
+
+        .info_catdesc{
+            margin: 10px;
+            box-shadow: 0px 0px 3px 0px black;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrap">
+    <div class="count">
+        현재 {{ user_count }}명의 인원이 고양이를 발견했어요.
+    </div>
+
+    <div class="users">
+        {{ waiting_users }}명 현재 대기중입니다.
+    </div>
+
+    <div class="info_mbti">
+        나의 MBTI 는 {{ user_info.mbti }}
+    </div>
+
+    <div class="info_img">
+        <div style="width: 100px; height: 100px; background-color: {{ user_info.color }}">
+            <img class="is-rounded" src="static/cat_images/{{ cat_name }}.png" alt={{ cat_name }}>
+        </div>
+    </div>
+
+    <div class="info_catname">
+        나의 고양이는 {{ cat_name }}
+    </div>
+
+    <div class="info_catdesc">
+        {{ cat.cat_description }}
+    </div>
+
+    <a href="/">확인</a>
+</div>
+</body>
+</html>
