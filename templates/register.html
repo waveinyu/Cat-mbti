@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Webpage Title -->
+    <title>회원가입</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bulma CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <script>
+      let signal = ""; // 버튼 강제
+      let statement = "";
+      function sign_up() {
+        let userid = $("#userid").val()
+        let userpw = $("#userpw").val()
+        let userpw2 = $("#userpw2").val()
+        let usernick = $("#usernick").val()
+        
+        console.log(is_id(userid))
+        if (is_id(userid) == false) {
+          return alert("아이디의 형식을 확인해주세요 : 영문자 또는 숫자 5~8자 ")
+        }
+
+        console.log(is_password(userpw))
+        if (is_password(userpw) == false) {
+          return alert("비밀번호의 형식을 확인해주세요 : 최소 8 자, 최소 하나의 문자 및 하나의 숫자") 
+        //  return alert("비밀번호의 형식을 확인해주세요 : 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자")
+        }
+
+        //pw1, pw2가 일치하는지 안 하는지
+        if (userpw != userpw2) {
+          return alert("비밀번호가 일치하지 않습니다.")
+        }
+
+        console.log(is_nick(usernick))
+        if (is_nick(usernick) == false) {
+          return alert("닉네임의 형식을 확인해주세요 : 특수문자 제외 한글, 영문, 숫자")
+        }
+
+        if (signal !== userid) {
+          signal = "" // 버튼 강제
+          return alert("아이디가 중복됐거나 중복 체크를 하지 않았습니다.")
+        }
+//
+        if (statement !== usernick) {
+           statemen = "" // 버튼 강제
+          return alert("닉네임이 중복됐거나 중복 체크를 하지 않았습니다.")
+        }
+        
+        $.ajax({
+          type: "POST",
+          url: "/register/save",
+          data: {
+            id_give : userid,
+            pw_give : userpw,
+            pw_give2 : userpw2,
+            nick_give : usernick
+          },
+          success: function (response) {
+            if (response["msg"] == "success") {
+              alert("회원가입 성공!")
+              window.location.replace("/login")
+            }
+
+            }
+        })
+      }
+
+    // 정규식 특문 에러
+    // 아이디 규칙 : 영문자로 시작하는 영문자 또는 숫자 5~8자 
+      function is_id(asValue) {
+        const regExp = /^[a-zA-Z][0-9a-zA-Z]{4,7}$/
+        //const regExp = /^[a-z]+[a-z0-9]{5,19}$/g;
+        return regExp.test(asValue);
+      }
+
+
+      // 패스워드 규칙
+      function is_password(asValue) {
+        const regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+        //var regExp = /^(?=.\d)(?=.[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+        return regExp.test(asValue);
+      }
+
+      // 닉네임 규칙
+      function is_nick(asValue) {
+        const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+        return regex.test(asValue)
+      }
+
+      function overlap_id() {
+        let userid = $("#userid").val()
+        $.ajax({
+          type: "POST",
+          url: "/register/check",
+          data: {id_give: userid},
+          success: function (response) { // 비밀번호 일치, 불일치 표현
+            if (response['sign'] === "0") {
+              if (is_id(userid) == false) {
+                alert("아이디의 형식을 확인해주세요 : 영문자 또는 숫자 5~8자")
+              } else{
+                alert(response['msg'])
+              }   
+              signal = userid;
+              //console.log(signal)
+            } else { 
+              alert(response['msg'])
+            } // 에러)아이디 입력하지 않았을 때 중복확인 버튼 입력 시 넘어가는 것
+          }
+        })
+      }
+
+      function overlap_nick() {
+        let usernick = $("#usernick").val()
+        $.ajax({
+          type: "POST",
+          url: "/register/check_nick",
+          data: {nick_give: usernick},
+          success: function (response) {
+            console.log(response['state']) 
+            if (response['state'] === "success") {
+              alert(response['msg'])
+              statement = usernick;
+            } else {
+              alert(response['msg'])
+            }
+          }
+        })
+      }
+
+    </script>
+  </head>
+  <body>
+      <div class="register-box">
+        <p>id : <input id="userid" type="id" required placeholder="아이디 입력">
+          <button onclick="overlap_id()">중복체크</button>
+        </p>
+        <p>pw : <input id="userpw" type="password" required placeholder="비밀번호 입력"></p>
+        <p>pw : <input id="userpw2" type="password" required placeholder="비밀번호 재입력"></p>
+        <p>nickname : <input id="usernick" type="text" required placeholder="닉네임 입력">
+          <button onclick="overlap_nick()">중복체크</button>
+        </p>
+      </div>
+      <div>
+        <button onclick="sign_up()">회원가입</button>
+      </div>
+    </div>
+  </body>
+</html>
