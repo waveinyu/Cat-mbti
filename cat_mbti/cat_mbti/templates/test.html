@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Webpage Title -->
+    <title>TEST | MBTI</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- Font Awesome CSS Custom by JIHUN -->
+    <script src="https://kit.fontawesome.com/a0d1147796.js" crossorigin="anonymous"></script>
+
+    <!-- CUSTOM FONTS by JIHUN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+
+    <!-- STYLE, MOVE TO STATIC -->
+    <style>
+        body {
+            background-color: RGBA(232, 52, 78, 0.2);
+            min-height: 100vh;
+        }
+
+        .section {
+            padding: 1rem 1.5rem;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .title {
+            font-weight: 800;
+            font-size: 5rem;
+            font-family: 'IBM Plex Sans KR', sans-serif;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+        }
+
+        .is-sparta {
+            color: #e8344e !important;
+        }
+
+        .button.is-sparta {
+            background-color: #e8344e;
+            border-color: transparent;
+            color: #fff !important;
+        }
+
+        .button.is-sparta.is-outlined {
+            background-color: transparent;
+            border-color: #e8344e;
+            color: #e8344e !important;
+        }
+
+        .help {
+            color: gray;
+        }
+    </style>
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- LOGIN HTML STATIC JS -->
+
+    <script>
+        function test_send() {
+            // 테스트 내용 받기
+            let hobby = $('input[name="hobby"]:checked').val();
+            let color = $('input[name="color"]:checked').val();
+            let mbti = $('#mbti').find(":selected").val();
+            let date = new Date().toISOString()
+
+            // 테스트 입력 에러 확인
+
+            if (!hobby || !color || !mbti) {
+                alert("설문을 모두 완성해주세요")
+                return
+            }
+
+            // 테스트 내용으로 유저 정보 업데이트, mbti 업데이트 해주기
+            $.ajax({
+                type: "POST",
+                url: "/test_result_update",
+                data: {
+                    mbti: mbti,
+                    color: color,
+                    date: date
+                },
+                success: function (response) {
+                    alert(`${color}, ${hobby}, ${mbti}`);
+                    alert(response.msg)
+                    window.location.replace("/result")
+                }
+            });
+        }
+    </script>
+
+</head>
+<body>
+
+<section>
+    <div class="control">
+        <label class="radio">
+            <input type="radio" name="hobby" value="유튜브 레시피로 내가 좋아하는 음식 요리하기">
+            유튜브 레시피로 내가 좋아하는 음식 요리하기
+        </label>
+        <label class="radio">
+            <input type="radio" name="hobby" value="격렬히 땀 흘리는 운동하기">
+            격렬히 땀 흘리는 운동하기
+        </label>
+        <label class="radio">
+            <input type="radio" name="hobby" value="간식을 먹으며 집에서 넷플릭스 보기">
+            간식을 먹으며 집에서 넷플릭스 보기
+        </label>
+        <label class="radio">
+            <input type="radio" name="hobby" value="좋아하는 음악에 빠져 코딩하기">
+            좋아하는 음악에 빠져 코딩하기
+        </label>
+        <label class="radio">
+            <input type="radio" name="hobby" value="조용한 장소에서 책 읽으며 교양 쌓기">
+            조용한 장소에서 책 읽으며 교양 쌓기
+        </label>
+    </div>
+</section>
+
+<section>
+    <div class="control">
+        <label class="radio">
+            <input type="radio" name="color" value="#FA876F">
+            유튜브 레드
+        </label>
+        <label class="radio">
+            <input type="radio" name="color" value="#989797">
+            터미널 블랙
+        </label>
+        <label class="radio">
+            <input type="radio" name="color" value="#F9EC63">
+            카카오톡 옐로우
+        </label>
+        <label class="radio">
+            <input type="radio" name="color" value="#BCFA57">
+            멜론 그린
+        </label>
+        <label class="radio">
+            <input type="radio" name="color" value="#6C99F4">
+            페이스북 블루
+        </label>
+    </div>
+</section>
+
+<section>
+    <div class="control has-icons-left">
+        <div class="select is-rounded is-medium is-primary">
+            <select id="mbti">
+                <option selected="selected" value="">- MBTI -</option>
+                <option value="ISTJ">ISTJ</option>
+                <option value="ISFJ">ISFJ</option>
+                <option value="INFJ">INFJ</option>
+                <option value="INTJ">INTJ</option>
+
+                <option value="ISTP">ISTP</option>
+                <option value="ISFP">ISFP</option>
+                <option value="INFP">INFP</option>
+                <option value="INTP">INTP</option>
+
+                <option value="ESTP">ESTP</option>
+                <option value="ESFP">ESFP</option>
+                <option value="ENFP">ENFP</option>
+                <option value="ENTP">ENTP</option>
+
+                <option value="ESTJ">ESTJ</option>
+                <option value="ESFJ">ESFJ</option>
+                <option value="ENFJ">ENFJ</option>
+                <option value="ENTJ">ENTJ</option>
+            </select>
+        </div>
+        <div class="icon is-small is-left">
+            <i class="fas fa-cat"></i>
+        </div>
+    </div>
+</section>
+
+<div>
+    <button onclick="test_send()">마치기</button>
+</div>
+
+</body>
+</html>

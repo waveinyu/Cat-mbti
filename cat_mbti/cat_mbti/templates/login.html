@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Webpage Title -->
+    <title>LOGIN | MBTI</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- CUSTOM FONTS by JIHUN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+
+    <!-- STYLE, MOVE TO STATIC -->
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- LOGIN HTML STATIC JS -->
+    <script src="{{ url_for('static', filename='login.js') }}"></script>
+
+</head>
+<body>
+<section>
+    <div>
+        <div>
+            <input id="input-username" class="input" type="text" placeholder="아이디">
+        </div>
+        <div id="btn-check-dup" class="control is-hidden">
+            <button onclick="check_dup()">중복확인</button>
+        </div>
+    </div>
+    <p id="help-id" class="hel is-hidden">아이디 형식 : 영문자 또는 숫자 5~8자
+    </p>
+    <p id="help-id-login" class="help is-danger"></p>
+    <div>
+        <div>
+            <input id="input-password" class="input" type="password" placeholder="비밀번호">
+        </div>
+        <p id="help-password" class="help is-hidden">비밀번호 형식 : 최소 8자, 최소 하나의 문자 및 하나의 숫자
+        </p>
+        <p id="help-password-login" class="help is-danger"></p>
+
+    </div>
+    <div id="div-sign-in-or-up">
+        <nav>
+            <button onclick="sign_in()">
+                로그인
+            </button>
+        </nav>
+        <p id="help-password" class="help">로그인을 해주세요.</p>
+        <nav>
+            <button
+                    onclick="toggle_sign_up()">
+                회원가입하기
+            </button>
+        </nav>
+    </div>
+    <div id="sign-up-box" class="is-hidden">
+        <div>
+            <div>
+                <div>
+                    <input id="input-password2" class="input" type="password"
+                           placeholder="비밀번호 재입력">
+                </div>
+                <p id="help-password2" class="help is-hidden">비밀번호를 다시 한 번 입력해주세요.</p>
+            </div>
+            <div>
+                {#                <div>#}
+                {#                    <p>nickname : <input id="input-nickname" type="text" required placeholder="닉네임 입력">#}
+                {#                    <p id="help-nick" class="help">닉네임 형식 : 특수문자 제외 한글, 영문, 숫자</p>#}
+                {#                    <button onclick="check_dup_nick()">중복체크</button>#}
+                {#                </div>#}
+            </div>
+        </div>
+        <nav>
+            <button onclick="sign_up()">
+                회원가입
+            </button>
+            <button onclick="toggle_sign_up()">
+                취소
+            </button>
+        </nav>
+    </div>
+</section>
+</body>
+</html>

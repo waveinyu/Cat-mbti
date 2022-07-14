@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <!-- Webpage Title -->
+    <title>INDEX | MBTI</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- CUSTOM FONTS by JIHUN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+
+    <!-- STYLE, MOVE TO STATIC -->
+    <style>
+        body {
+            background-color: RGBA(232, 52, 78, 0.2);
+            min-height: 100vh;
+        }
+
+        .section {
+            padding: 1rem 1.5rem;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .title {
+            font-weight: 800;
+            font-size: 5rem;
+            font-family: 'IBM Plex Sans KR', sans-serif;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+        }
+
+        .is-sparta {
+            color: #e8344e !important;
+        }
+
+        .button.is-sparta {
+            background-color: #e8344e;
+            border-color: transparent;
+            color: #fff !important;
+        }
+
+        .button.is-sparta.is-outlined {
+            background-color: transparent;
+            border-color: #e8344e;
+            color: #e8344e !important;
+        }
+
+        .help {
+            color: gray;
+        }
+    </style>
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <script>
+        $(document).ready(() => {
+            get_test_results()
+        })
+
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!')
+            window.location.href = "/login"
+        }
+
+        function time2str(date) {
+            let today = new Date()
+            let time = (today - date) / 1000 / 60  // 분
+
+            if (time < 60) {
+                return parseInt(time) + "분 전"
+            }
+            time = time / 60  // 시간
+            if (time < 24) {
+                return parseInt(time) + "시간 전"
+            }
+            time = time / 24
+            if (time < 7) {
+                return parseInt(time) + "일 전"
+            }
+            return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
+        }
+
+        function get_test_results() {
+            $.ajax({
+                type: "GET",
+                url: "/get_test_results",
+                data: {},
+                success: function (response) {
+                    let users = response["users"]
+                    let cats = response["cats"]
+                    let match = []
+
+                    for (let i = 0; i < users.length; i++) {
+                        let time_post = new Date(users[i]["date"])
+                        let tiem_before = time2str(time_post)
+                        for (let j = 0; j < cats.length; j++) {
+                            cats[j]["cat_mbti"] == users[i]["mbti"] ? match.push(cats[j]["cat_name"]) : ""
+                        }
+
+                        let temp_html = `<li>
+                                            <div style="width: 100px; height: 100px; background-color: ${users[i].color}">
+                                                <figrue class="image is-32x32">
+                                                    <img src="static/cat_images/${match[i]}.png" alt="${match[i]}">
+                                                </figrue>
+                                            </div>
+
+                                            ${users[i]["username"]} 님의 고양이는 ${match[i]}번째 고양이 ${tiem_before} 좋아하는 색은 ${users[i]["color"]}
+                                        </li>`
+                        $("#test-results").append(temp_html)
+                    }
+
+                }
+            });
+        }
+    </script>
+
+</head>
+<body>
+{% if user_info.status == "0" %}
+    <a href="/test">시험 보러가기</a>
+    <a onclick="sign_out()">로그아웃</a>
+    <div>
+        {{ user_info.username }} 님은 시험 결과가 없습니다.
+    </div>
+{% else %}
+    <a href="/test">시험 다시보기</a>
+    <a onclick="sign_out()">로그아웃</a>
+    <div>
+        <!-- cat.cat_imgage 불러오기-->
+        {{ user_info.username }} 님은 {{ user_info.mbti }} 그리고 고양이는 {{ cat.cat_name }}
+    </div>
+{% endif %}
+
+<section>
+    <div>
+        실시간 유저 테스트 결과
+    </div>
+    <ul id="test-results">
+        <li></li>
+    </ul>
+</section>
+
+</body>
+</html>
