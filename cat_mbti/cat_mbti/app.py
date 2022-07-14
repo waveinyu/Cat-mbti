@@ -44,6 +44,9 @@ def home():
 
 @app.route('/login')
 def login():
+    token_receive = request.cookies.get('mytoken')
+    if (token_receive):
+        return redirect(url_for("home", msg="이미 로그인 정보가 존재합니다."))
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
 
