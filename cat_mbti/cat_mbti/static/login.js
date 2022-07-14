@@ -14,7 +14,7 @@ function toggle_sign_up() {
 
 // 아이디, 비밀번호 형식 체크하기
 function is_nickname(asValue) {
-    var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
+    var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{5,10}$/;
     return regExp.test(asValue);
 }
 
@@ -32,7 +32,7 @@ function check_dup() {
         return;
     }
     if (!is_nickname(username)) {
-        $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
+        $("#help-id").text("영문자로 시작하는 영문자 또는 숫자 5~8자").removeClass("is-safe").addClass("is-danger")
         $("#input-username").focus()
         return;
     }
