@@ -136,6 +136,7 @@
 <body>
 {% if user_info.status == "0" %}
     <a href="/test">시험 보러가기</a>
+    <a onclick="sign_out()">로그아웃</a>
     <div>
         {{ user_info.username }} 님은 시험 결과가 없습니다.
     </div>
@@ -143,7 +144,6 @@
     <a href="/test">시험 다시보기</a>
     <a onclick="sign_out()">로그아웃</a>
     <div>
-
         <!-- cat.cat_imgage 불러오기-->
         {{ user_info.username }} 님은 {{ user_info.mbti }} 그리고 고양이는 {{ cat.cat_name }}
     </div>

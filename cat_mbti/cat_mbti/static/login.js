@@ -8,6 +8,8 @@ function toggle_sign_up() {
     $("#help-id").toggleClass("is-hidden")
     $("#help-password").toggleClass("is-hidden")
     $("#help-password2").toggleClass("is-hidden")
+    $("#help-id-login").toggleClass("is-hidden")
+    $("#help-password-login").toggleClass("is-hidden")
 }
 
 // 아이디, 비밀번호 형식 체크하기
@@ -52,6 +54,29 @@ function check_dup() {
         }
     });
 }
+
+// 닉네임
+// function is_nick(asValue) {
+//     const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+//     return regex.test(asValue)
+// }
+
+// 닉네임 중복
+// function check_dup_nick() {
+//     let usernick = $("#input-nickname").val()
+//     console.log(usernick)
+//     if (usernick == "") {
+//         $("#help-nick").text("닉네임을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+//         $("#input-usernick").focus()
+//         return;
+//     }
+//     if (!is_nick(usernick)) {
+//         $("#help-nick").text("닉네임의 형식을 확인해주세요. 특수문자 제외 한글, 영문, 숫자").removeClass("is-safe").addClass("is-danger")
+//         $("#input-username").focus()
+//         return;
+//     }
+//     $("#help-nick").text("사용할 수 있는 닉네임입니다.").removeClass("is-danger").addClass("is-success")
+// }
 
 // 회원가입 완료하기 함수, 아이디 확인, 비밀번호 확인, 로그인 페이지로 이동
 function sign_up() {
@@ -138,7 +163,7 @@ function sign_in() {
         success: function (response) {
             if (response['result'] == 'success') {
                 $.cookie('mytoken', response['token'], {path: '/'});
-                window.location.replace("/")
+                window.location.replace("/main")
             } else {
                 alert(response['msg'])
             }

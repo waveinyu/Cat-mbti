@@ -16,8 +16,14 @@ client = MongoClient('mongodb+srv://test:sparta@cluster0.byzbnff.mongodb.net/Clu
 db = client.cat_mbti
 
 
-# 토큰 확인하고, index.html 에 user_info 넘겨주기
 @app.route('/')
+def intro():
+    msg = request.args.get("msg")
+    return render_template('intro.html', msg=msg)
+
+
+# 토큰 확인하고, index.html 에 user_info 넘겨주기
+@app.route('/main')
 def home():
     token_receive = request.cookies.get('mytoken')
     try:
@@ -135,7 +141,8 @@ def result():
             user_count = db.users.count_documents({"status": "1"})
             print(user_count)
             print(cat_name)
-            return render_template('result.html', cat=cat, cat_name=cat_name, waiting_users=waiting_users, user_count=user_count,
+            return render_template('result.html', cat=cat, cat_name=cat_name, waiting_users=waiting_users,
+                                   user_count=user_count,
                                    user_info=user_info)
         else:
             return redirect(url_for("test", msg="시험 결과가 없습니다. 시험을 봐주세요."))
