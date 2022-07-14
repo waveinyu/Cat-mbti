@@ -86,6 +86,7 @@ def overlap_id():
     else:
         return jsonify({'msg':"중복된 아이디입니다", 'sign':"1"})
 
+
 # 닉네임 중복 체크
 @app.route('/register/check_nick', methods=["POST"])
 def overlap_nick():
@@ -100,4 +101,3 @@ def overlap_nick():
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
-
