@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Webpage Title -->
+    <title>회원가입</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bulma CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <script>
+      let signal = ""; // 버튼 강제
+      let statement = "";
+      function sign_up() {
+        let userid = $("#input-username").val()
+        let userpw = $("#input-password").val()
+        let userpw2 = $("#input-password2").val()
+        let usernick = $("#input-nickname").val()
+        
+        if (userpw != userpw2) {
+          return alert("비밀번호가 일치하지 않습니다.")
+        }
+        
+        $.ajax({
+          type: "POST",
+          url: "/register/save",
+          data: {
+            id_give : userid,
+            pw_give : userpw,
+            pw_give2 : userpw2,
+            nick_give : usernick
+          },
+          success: function (response) {
+            if (response["msg"] == "success") {
+              console.log(response)
+              alert("회원가입 성공!")
+              window.location.replace("/login")
+            }
+
+            }
+        })
+      }
+
+    // 정규식 특문 에러
+    // 아이디 규칙 : 영문자로 시작하는 영문자 또는 숫자 5~8자 
+      function is_id(asValue) {
+        const regExp = /^[a-zA-Z][0-9a-zA-Z]{4,7}$/
+        //const regExp = /^[a-z]+[a-z0-9]{5,19}$/g;
+        return regExp.test(asValue);
+      }
+
+      // 패스워드 규칙
+      function is_password(asValue) {
+        const regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+        //var regExp = /^(?=.\d)(?=.[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+        return regExp.test(asValue);
+      }
+
+      // 닉네임 규칙
+      function is_nick(asValue) {
+        const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+        return regex.test(asValue)
+      }
+
+      function check_dup() {
+        let username = $("#input-username").val()
+        console.log(username)
+        console.log(username)
+        if (username == "") {
+          $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+          $("#input-username").focus()
+          return;
+        }
+        if (!is_id(username)) {
+          $("#help-id").text("아이디의 형식을 확인해주세요. 영문자 또는 숫자 5~8자").removeClass("is-safe").addClass("is-danger")
+          $("#input-username").focus()
+          return;
+        }
+        $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
+      }
+      
+      
+      function check_dup_nick(){
+        let usernick = $("#input-nickname").val()
+        console.log(usernick)
+        if (usernick == "") {
+          $("#help-nick").text("닉네임을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+          $("#input-usernick").focus()
+          return;
+        }
+        if (!is_nick(usernick)) {
+          $("#help-nick").text("닉네임의 형식을 확인해주세요. 특수문자 제외 한글, 영문, 숫자").removeClass("is-safe").addClass("is-danger")
+          $("#input-username").focus()
+          return;
+        }
+        $("#help-nick").text("사용할 수 있는 닉네임입니다.").removeClass("is-danger").addClass("is-success")
+      }
+      
+ 
+    </script>
+  </head>
+  <body>
+      <div class="register-box">
+        <div>
+          <p>id : <input id="input-username" class="input-username" type="id" required placeholder="아이디 입력">
+            <button onclick="check_dup()">중복체크</button>
+            <p id="help-id" class="help n">아이디 형식 : 영문자 또는 숫자 5~8자 </p>
+          </p>
+        </div>
+        <div>
+          <p>pw : <input id="input-password" type="password" required placeholder="비밀번호 입력"></p>
+          <p id="help-password" class="help">비밀번호 형식 : 최소 8자, 최소 하나의 문자 및 하나의 숫자</p>
+        </div>
+        <div>
+          <p>pw : <input id="input-password2" type="password" required placeholder="비밀번호 재입력"></p>
+          <p id="help-password2" class="help">비밀번호를 다시 한 번 입력해주세요</p>
+        </div>
+        <div>
+          <p>nickname : <input id="input-nickname" type="text" required placeholder="닉네임 입력">
+          <p id="help-nick" class="help">닉네임 형식 : 특수문자 제외 한글, 영문, 숫자</p>
+            <button onclick="check_dup_nick()">중복체크</button>
+        </div>
+      </div>
+      <div>
+        <button onclick="sign_up()">회원가입</button>
+      </div>
+    </div>
+  </body>
+</html>
